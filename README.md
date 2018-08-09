@@ -1,5 +1,5 @@
 # PyPiano
-Piano keys detector, using only classical image processing techniques
+Piano keys detector
 ===
 Given an input image of piano keys, the script identifies the piano keys and labels them
 
