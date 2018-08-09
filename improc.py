@@ -110,16 +110,19 @@ def classify_white_components(white_components, x_cms, y_cms, im_gray, component
             log_image[(y-2):(y+2), (x-2):(x+2), :] = np.array([0, 0, 255])
 
         # Determine a patch along the upper border to inspect
+        inspection_radius = 20
+
         inspection_middle_points = sorted(border_points, key=lambda p: p[1])
         inspection_middle_points = inspection_middle_points[
                                    int(0.1 * len(inspection_middle_points)):
                                    int(0.3 * len(inspection_middle_points))]
         inspection_x, inspection_y = int(np.average([p[0] for p in inspection_middle_points])),\
                                      int(np.average([p[1] for p in inspection_middle_points]))
-        patch_value = np.sum(im_gray[(inspection_y-15):(inspection_y+15), (inspection_x-15):(inspection_x+15)])
+        patch_value = np.sum(im_gray[(inspection_y-inspection_radius):(inspection_y+inspection_radius),
+                             (inspection_x-inspection_radius):(inspection_x+inspection_radius)])
 
         # If the patch is relatively black, there's a black key there
-        black_threshold = 30*30*255*0.6
+        black_threshold = inspection_radius*inspection_radius*4*255*0.6
         black_key_exists.append(1 if patch_value < black_threshold else 0)
 
         # Log - outline inspection patches that saw a black key

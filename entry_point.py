@@ -23,7 +23,8 @@ def parse_image(file_path):
     white_components, y_cms, x_cms, white_component_notes = classify_white_components(
         white_components, np.squeeze(x_cms), y_cms,
         im_gray, components_matrix, processing_log)
-    full_annotation(im_rgb.copy(), y_cms, x_cms, white_component_notes, white_components, components_matrix, processing_log)
+    full_annotation(im_rgb.copy(), y_cms, x_cms, white_component_notes,
+                    white_components, components_matrix, processing_log)
 
     # Show the process steps and the final result
     show_process_steps(processing_log)

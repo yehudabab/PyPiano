@@ -7,7 +7,9 @@ def expand2rgb(im):
     return np.transpose(np.stack([im]*3), axes=(1, 2, 0))
 
 
-def imshow(im):
+def imshow(im, title=None):
+    if title is not None:
+        plt.title(title)
     plt.imshow(im)
     plt.show()
 
@@ -89,8 +91,9 @@ def highlight_note(rgb_im, components_matrix, note_cc_id, color_delta):
 
 
 def put_text(rgb_im, y, x, text):
-    rgb_im[(y - 12):(y + 12), (x - 12):(x + 12), :] = np.array([0, 0, 0])
-    cv2.putText(rgb_im, text, (x - 8, y + 7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, color=255, thickness=2)
+    radius = 30
+    rgb_im[(y - radius):(y + radius), (x - radius):(x + radius), :] = np.array([0, 0, 0])
+    cv2.putText(rgb_im, text, (x - 20, y + 20), cv2.FONT_HERSHEY_SIMPLEX, 2, color=255, thickness=2)
 
 
 def full_annotation(rgb_im, y_cms, x_cms, white_component_notes, white_components, components_matrix, processing_log):
@@ -98,4 +101,4 @@ def full_annotation(rgb_im, y_cms, x_cms, white_component_notes, white_component
         color_delta = (np.array([100, 100, 0] if idx % 2 == 0 else [100, 0, 100], dtype=np.uint8))
         highlight_note(rgb_im, components_matrix, wc_idx, color_delta)
         put_text(rgb_im, y_cms[idx], x_cms[idx], white_component_notes[idx])
-    processing_log.append(('Full Annotation', rgb_im))
+    processing_log.append(('Notes', rgb_im))
