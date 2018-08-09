@@ -47,9 +47,9 @@ def show_summary(processing_log):
     for step_idx, step_data in enumerate([processing_log[0], processing_log[-1]]):
         ax = plt.subplot('12%i' % (step_idx + 1))
         ax.tick_params(
-            axis='both',
-            which='both',
             bottom=False,
+            right=False,
+            left=False,
             top=False,
             labelbottom=False,
             labelleft=False)
@@ -62,12 +62,11 @@ def show_process_steps(processing_log):
     fig = plt.figure()
     fig.suptitle('Processing Steps', fontsize=16)
     for step_idx, step_data in enumerate(processing_log):
-        print(step_idx, step_data[0])
         ax = plt.subplot('33%i' % (step_idx + 1))
         ax.tick_params(
-            axis='both',
-            which='both',
             bottom=False,
+            right=False,
+            left=False,
             top=False,
             labelbottom=False,
             labelleft=False)
@@ -91,11 +90,10 @@ def highlight_note(rgb_im, components_matrix, note_cc_id, color_delta):
 
 def put_text(rgb_im, y, x, text):
     rgb_im[(y - 12):(y + 12), (x - 12):(x + 12), :] = np.array([0, 0, 0])
-    cv2.putText(rgb_im[:, :, 0], text, (x - 8, y + 7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, color=255, thickness=2)
+    cv2.putText(rgb_im, text, (x - 8, y + 7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, color=255, thickness=2)
 
 
-def full_annotation(im_gray, y_cms, x_cms, white_component_notes, white_components, components_matrix, processing_log):
-    rgb_im = expand2rgb(im_gray)
+def full_annotation(rgb_im, y_cms, x_cms, white_component_notes, white_components, components_matrix, processing_log):
     for idx, wc_idx in enumerate(white_components):
         color_delta = (np.array([100, 100, 0] if idx % 2 == 0 else [100, 0, 100], dtype=np.uint8))
         highlight_note(rgb_im, components_matrix, wc_idx, color_delta)
