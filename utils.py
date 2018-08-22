@@ -91,9 +91,9 @@ def highlight_note(rgb_im, components_matrix, note_cc_id, color_delta):
 
 
 def put_text(rgb_im, y, x, text):
-    radius = 30
+    radius = 20
     rgb_im[(y - radius):(y + radius), (x - radius):(x + radius), :] = np.array([0, 0, 0])
-    cv2.putText(rgb_im, text, (x - 20, y + 20), cv2.FONT_HERSHEY_SIMPLEX, 2, color=255, thickness=2)
+    cv2.putText(rgb_im, text, (x - 10, y + 10), cv2.FONT_HERSHEY_SIMPLEX, 1, color=255, thickness=2)
 
 
 def full_annotation(rgb_im, y_cms, x_cms, white_component_notes, white_components, components_matrix, processing_log):
